@@ -1,7 +1,24 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import Character from './components/Character';
 
 const App = () => {
+  const [spaceData, setSpaceData] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://swapi.dev/api/people')
+      .then(res => {
+        // console.log(res);
+        setSpaceData(res.data)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    },[]
+  )
+  useEffect(() => console.log(spaceData), [spaceData])
+
   // Try to think through what state you'll need for this app before starting. Then build out
   // the state properties here.
 
@@ -12,6 +29,7 @@ const App = () => {
   return (
     <div className="App">
       <h1 className="Header">Characters</h1>
+      <Character spaceData={spaceData} key={spaceData.id} />
     </div>
   );
 }
